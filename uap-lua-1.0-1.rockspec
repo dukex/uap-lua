@@ -1,7 +1,7 @@
 package = "uap-lua"
 version = "1.0-1"
 source = {
-   url = "git@github.com:megafono/uap-lua.git",
+   url = "git://github.com/megafono/uap-lua.git",
    tag = "v1.0"
 }
 description = {
