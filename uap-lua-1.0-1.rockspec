@@ -1,11 +1,12 @@
 package = "uap-lua"
 version = "1.0-1"
 source = {
-   url = "*** please add URL for source tarball, zip or repository here ***"
+   url = "git@github.com:megafono/uap-lua.git",
+   tag = "v1.0"
 }
 description = {
-   summary = "UserAgentParser in lua",
-   homepage = "*** please enter a project homepage ***",
+   summary = "User Agent Parser in lua",
+   homepage = "https://github.com/megafono/uap-lua",
    license = "MIT"
 }
 dependencies = {
