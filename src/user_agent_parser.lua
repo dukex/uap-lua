@@ -221,9 +221,9 @@ local function parser_ua(user_agent, os, device, patterns)
     string = user_agent,
     ua = {
       family = family or "Other",
-      major = major,
-      minor = minor,
-      patch = patch,
+      major = strip(major),
+      minor = strip(minor),
+      patch = strip(patch),
     },
     os = os,
     device = device,

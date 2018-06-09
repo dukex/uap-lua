@@ -1,8 +1,8 @@
 local uap = require("uap")
 local lyaml = require "lyaml"
 local null    = lyaml.null
-local h = require "./test/helper"
 
+local h = require "./test/helper"
 local start_at = tonumber(arg[1] or "0")
 
 local test_cases = h.load_test_cases("device")
