@@ -2,6 +2,7 @@ require "luarocks.loader"
 
 local lyaml = require "lyaml"
 local lrex = require "rex_pcre2"
+local datafile = require("datafile")
 
 local user_agent_parser = {}
 
@@ -43,7 +44,8 @@ local function esc_percent(x)
   return r
 end
 
-local function load_patterns(path)
+local function load_patterns()
+  local path = datafile.path("vendor/uap-core/regexes.yaml")
   local yml = assert(lyaml.load(read_file(path)), "error to load " .. path)
   local patterns = {}
   for type,yml_patterns in pairs(yml) do
@@ -230,8 +232,7 @@ local function parser_ua(user_agent, os, device, patterns)
   }
 end
 
-local path = "vendor/uap-core/regexes.yaml"
-local parsers = load_patterns(path)
+local parsers = load_patterns()
 
 function user_agent_parser.parse (user_agent)
   local os = parser_os(user_agent, parsers)

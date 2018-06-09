@@ -10,7 +10,8 @@ description = {
 }
 dependencies = {
   "lyaml",
-  "lrexlib-pcre2"
+  "lrexlib-pcre2",
+  "datafile"
 }
 build = {
    type = "builtin",
