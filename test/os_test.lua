@@ -4,12 +4,17 @@ local null    = lyaml.null
 
 local h = require "./test/helper"
 
-for _,test_case in ipairs(h.load_test_cases("os")) do
+local test_cases = h.load_test_cases("os")
+local count = 0
 
-  print("------")
+for _,_ in ipairs(test_cases) do
+  count = count + 1
+end
+
+for i,test_case in ipairs(test_cases) do
+  print("-- " .. i .. "/" .. tostring(count) .. " ----------------------")
+
   local ua = uap.parse(test_case.user_agent_string)
-  print(require("inspect")(test_case))
-  print(require("inspect")(ua))
 
   assert(ua.os.family == test_case.family, "'" .. ua.os.family .. "' is not '" .. test_case.family .. "'")
 

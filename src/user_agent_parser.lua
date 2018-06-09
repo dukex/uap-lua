@@ -31,12 +31,17 @@ end
 
 local function strip(str)
   if type(str) == "string" then
-    if str == "" then return nil else return str:match("^%s*(.-)%s*$") end
+    str = str:match("^%s*(.-)%s*$")
+    if str == "" then return nil else return str end
   else
     return str
   end
 end
 
+local function esc_percent(x)
+  local r, _ = x:gsub("%%", "%%%%")
+  return r
+end
 
 local function load_patterns(path)
   local yml = assert(lyaml.load(read_file(path)), "error to load " .. path)
@@ -54,7 +59,7 @@ end
 local function first_pattern_match(patterns, value)
   for _,pattern in ipairs(patterns) do
     local match = { pattern.regex_compiled:match(value) }
-    if match[1] then
+    if match[1] or match[2] or match[3] then
       return pattern, match
     end
   end
@@ -135,33 +140,36 @@ local function parser_device(user_agent, patterns)
     local family = match[1]
     local model
     local brand
-    print("patten", require("inspect")(pattern))
+
+    if pattern.regex_compiled:patterninfo()["CAPTURECOUNT"] > 0 then
+      model = match[1]
+    end
 
     if pattern.device_replacement then
       family = pattern.device_replacement
       for i,m in ipairs(match) do
-        family = family:gsub("$"..i, m)
+        family = family:gsub("$"..i, esc_percent(m))
       end
     end
 
     if pattern.model_replacement then
       model = pattern.model_replacement
       for i,m in ipairs(match) do
-        model = model:gsub("$"..i, m)
+        model = model:gsub("$"..i, esc_percent(m))
       end
     end
 
     if pattern.brand_replacement then
       brand = pattern.brand_replacement
       for i,m in ipairs(match) do
-        brand = brand:gsub("$"..i, m)
+        brand = brand:gsub("$"..i, esc_percent(m))
       end
     end
 
     return {
       family = strip(family),
       model = strip(model),
-      brand = brand
+      brand = strip(brand)
     }
   end
 end
@@ -222,10 +230,10 @@ local function parser_ua(user_agent, os, device, patterns)
   }
 end
 
-function user_agent_parser.parse (user_agent)
-  local path = "vendor/uap-core/regexes.yaml"
-  local parsers = load_patterns(path)
+local path = "vendor/uap-core/regexes.yaml"
+local parsers = load_patterns(path)
 
+function user_agent_parser.parse (user_agent)
   local os = parser_os(user_agent, parsers)
   local device = parser_device(user_agent, parsers)
 
