@@ -114,10 +114,10 @@ local function parser_os(user_agent, patterns)
 
     return {
       family = family,
-      major = major,
-      minor = minor,
-      patch = patch,
-      patch_minor = patch_minor,
+      major = strip(major),
+      minor = strip(minor),
+      patch = strip(patch),
+      patch_minor = strip(patch_minor),
     }
   end
 end
