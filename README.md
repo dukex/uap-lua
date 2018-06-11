@@ -6,30 +6,29 @@ This package is tested on **+17500** user agents string, we have check to more t
 
 ## Pre-installation
 
-- `libyaml` to parser `regexes.yml` from [uap-core](https://github.com/ua-parser/uap-core)
 - `libpcre2` to compile the regexes in `regexes.yml`
 
-On Arch: 
+On Arch:
 ```bash
-# pacman -S libyaml pcre2
+# pacman -S pcre2
 ```
 
-On Ubuntu: 
-```bash 
-# apt-get install libyaml-dev libpcre2-dev
+On Ubuntu:
+```bash
+# apt-get install libpcre2-dev
 ```
 
 ## Installation
 
 Install package `uap-lua` using luarocks
 
-```bash 
+```bash
 # luarocks install uap-lua
 ```
 
 ## Usage
 
-Require the `uap` in your file 
+Require the `uap` in your file
 
 ```lua
 local uap = require('uap')
@@ -78,7 +77,7 @@ print(user_agent.device.model)
 
 Take a look the entire table of the previous examples
 
-```lua 
+```lua
 {
   device = {
     family = "Other"

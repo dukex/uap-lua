@@ -1,18 +1,6 @@
-require "luarocks.loader"
-
-local lyaml = require "lyaml"
-local lrex = require "rex_pcre2"
-local datafile = require("datafile")
+local patterns = require("uap.patterns")
 
 local user_agent_parser = {}
-
-local function read_file(path)
-  local file = io.open(path, "rb") -- r read mode and b binary mode
-  if not file then return nil end
-  local content = file:read "*a" -- *a or *all reads the whole file
-  file:close()
-  return content
-end
 
 local function map(xs, f)
   local rs = {}
@@ -44,24 +32,8 @@ local function esc_percent(x)
   return r
 end
 
-local function load_patterns()
-  local path = datafile.path("vendor/uap-core/regexes.yaml")
-  local yml = assert(lyaml.load(read_file(path)), "error to load " .. path)
-  local patterns = {}
-  for type,yml_patterns in pairs(yml) do
-    patterns[type] = yml_patterns
-    for i,pattern in ipairs(yml_patterns) do
-      patterns[type][i]['regex_compiled'] = lrex.new(pattern.regex, pattern.regex_flag or 'cf')
-    end
-  end
-
-  return patterns
-end
-
-local parsers = load_patterns()
-
-local function first_pattern_match(patterns, value)
-  for _,pattern in ipairs(patterns) do
+local function first_pattern_match(patterns_to_match, value)
+  for _,pattern in ipairs(patterns_to_match) do
     local match = { pattern.regex_compiled:match(value) }
     if match[1] or match[2] or match[3] then
       return pattern, match
@@ -71,7 +43,7 @@ local function first_pattern_match(patterns, value)
   return nil
 end
 
-local function parser_os(user_agent, patterns)
+local function parser_os(user_agent)
   local pattern, match = first_pattern_match(patterns.os_parsers, user_agent)
 
   if not pattern then
@@ -131,7 +103,7 @@ local function parser_os(user_agent, patterns)
   end
 end
 
-local function parser_device(user_agent, patterns)
+local function parser_device(user_agent)
   local pattern, match = first_pattern_match(patterns.device_parsers, user_agent)
 
   if not pattern then
@@ -178,7 +150,7 @@ local function parser_device(user_agent, patterns)
   end
 end
 
-local function parser_ua(user_agent, os, device, patterns)
+local function parser_ua(user_agent, os, device)
   local pattern, match = first_pattern_match(patterns.user_agent_parsers, user_agent)
   local family
   local major
@@ -235,10 +207,10 @@ local function parser_ua(user_agent, os, device, patterns)
 end
 
 function user_agent_parser.parse (user_agent)
-  local os = parser_os(user_agent, parsers)
-  local device = parser_device(user_agent, parsers)
+  local os = parser_os(user_agent)
+  local device = parser_device(user_agent)
 
-  return parser_ua(user_agent, os, device, parsers)
+  return parser_ua(user_agent, os, device)
 end
 
 return user_agent_parser
