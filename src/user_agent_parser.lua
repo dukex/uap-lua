@@ -7,27 +7,27 @@ local datafile = require("datafile")
 local user_agent_parser = {}
 
 local function read_file(path)
-    local file = io.open(path, "rb") -- r read mode and b binary mode
-    if not file then return nil end
-    local content = file:read "*a" -- *a or *all reads the whole file
-    file:close()
-    return content
+  local file = io.open(path, "rb") -- r read mode and b binary mode
+  if not file then return nil end
+  local content = file:read "*a" -- *a or *all reads the whole file
+  file:close()
+  return content
 end
 
 local function map(xs, f)
-   local rs = {}
-   for i = 1, #xs do
-      rs[i] = f(xs[i])
-   end
-   return rs
+  local rs = {}
+  for i = 1, #xs do
+    rs[i] = f(xs[i])
+  end
+  return rs
 end
 
 local function compact(xs)
-   local rs = {}
-   for i = 1, #xs do
-      if xs[i] ~= false then rs[i] = xs[i] else rs[i] = "" end
-   end
-   return rs
+  local rs = {}
+  for i = 1, #xs do
+    if xs[i] ~= false then rs[i] = xs[i] else rs[i] = "" end
+  end
+  return rs
 end
 
 local function strip(str)
@@ -74,18 +74,18 @@ end
 local function parser_os(user_agent, patterns)
   local pattern, match = first_pattern_match(patterns.os_parsers, user_agent)
 
-   if not pattern then
-     return {
-       family = "Other"
-     }
-   else
-     match = map(compact(match), tostring)
+  if not pattern then
+    return {
+      family = "Other"
+    }
+  else
+    match = map(compact(match), tostring)
 
-     local family = match[1]
-     local major = match[2]
-     local minor = match[3]
-     local patch = match[4]
-     local patch_minor = match[5]
+    local family = match[1]
+    local major = match[2]
+    local minor = match[3]
+    local patch = match[4]
+    local patch_minor = match[5]
 
     if pattern.os_replacement then
       family = pattern.os_replacement
