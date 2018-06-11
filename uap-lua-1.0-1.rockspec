@@ -21,5 +21,5 @@ build = {
      uap = "src/user_agent_parser.lua",
    },
 
-   copy_directories = { "doc", "test", "vendor/uap-core" }
+   copy_directories = { "doc", "test", "vendor/uap-core", "example" }
 }
