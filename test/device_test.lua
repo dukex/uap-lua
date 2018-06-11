@@ -8,13 +8,8 @@ local start_at = tonumber(arg[1] or "0")
 local test_cases = h.load_test_cases("device")
 local count = 0
 
-for _,_ in ipairs(test_cases) do
-  count = count + 1
-end
 
 for i,test_case in ipairs(test_cases) do
-  print("-- " .. i .. "/" .. tostring(count) .. " ----------------------")
-
   if i >= start_at then
     local ua = uap.parse(test_case.user_agent_string)
 
@@ -36,4 +31,13 @@ for i,test_case in ipairs(test_cases) do
       assert(ua.device.model == nil, "model should be nil")
     end
   end
+
+  io.write(".")
+  io.flush()
 end
+
+for _,_ in ipairs(test_cases) do
+  count = count + 1
+end
+
+print("\ntotal devices tested: " .. tostring(count))
