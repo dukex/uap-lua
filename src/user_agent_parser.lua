@@ -58,6 +58,8 @@ local function load_patterns()
   return patterns
 end
 
+local parsers = load_patterns()
+
 local function first_pattern_match(patterns, value)
   for _,pattern in ipairs(patterns) do
     local match = { pattern.regex_compiled:match(value) }
@@ -231,8 +233,6 @@ local function parser_ua(user_agent, os, device, patterns)
     device = device,
   }
 end
-
-local parsers = load_patterns()
 
 function user_agent_parser.parse (user_agent)
   local os = parser_os(user_agent, parsers)
