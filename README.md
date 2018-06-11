@@ -2,6 +2,8 @@
 
 A simple lua package for parsing user agent strings with the help of BrowserScope's UA database
 
+This package is tested on **+17500** user agents string, we have check to more than **+300** operation systems, **+1200** browsers and **+16000** devices.
+
 ## Pre-installation
 
 - `libyaml` to parser `regexes.yml` from [uap-core](https://github.com/ua-parser/uap-core)
