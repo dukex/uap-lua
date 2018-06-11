@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git submodule foreach git pull origin master
+
+lua ./dev-tools/dump_regexes.lua
