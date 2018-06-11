@@ -72,8 +72,6 @@ print(user_agent.device.brand)
 --> Apple
 print(user_agent.device.model)
 --> iPad
-
-print(inspect(user_agent))
 ```
 
 Take a look the entire table of the previous examples
