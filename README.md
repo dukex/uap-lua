@@ -9,13 +9,15 @@ This package is tested on **+17500** user agents string, we have check to more t
 - `libpcre2` to compile the regexes in `regexes.yml`
 
 On Arch:
+
 ```bash
-# pacman -S pcre2
+$ pacman -S pcre2
 ```
 
 On Ubuntu:
+
 ```bash
-# apt-get install libpcre2-dev
+$ apt-get install libpcre2-dev
 ```
 
 ## Installation
@@ -23,7 +25,7 @@ On Ubuntu:
 Install package `uap-lua` using luarocks
 
 ```bash
-# luarocks install uap-lua
+$ luarocks install uap-lua
 ```
 
 ## Usage
@@ -138,11 +140,12 @@ Take a look the entire table of the previous examples
   }
 }
 ```
-The table follow the [uap-core specification](https://github.com/ua-parser/uap-core/blob/master/docs/specification.md#parser-output)
 
+The table follow the [uap-core specification](https://github.com/ua-parser/uap-core/blob/master/docs/specification.md#parser-output)
 
 ## Contributing
 
+- `luarocks install lyaml && luarocks install inspect`
 - Fork
 - Code
 - `luarocks make --local && lua test/device_test.lua && lua test/os_test.lua && lua test/ua_test.lua`
