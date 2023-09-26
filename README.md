@@ -150,3 +150,14 @@ The table follow the [uap-core specification](https://github.com/ua-parser/uap-c
 - Code
 - `luarocks make --local && lua test/device_test.lua && lua test/os_test.lua && lua test/ua_test.lua`
 - Send a pull request
+
+### Publishing
+
+1. Create ./rockspecs/ file
+
+2. Run:
+
+```
+$ luarocks install dkjson
+$ luarocks upload rockspecs/uap-lua-1.3-1.rockspec --api-key=...
+```
